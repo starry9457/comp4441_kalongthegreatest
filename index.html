@@ -60,33 +60,33 @@
 
     <form>
       <!-- First we draw the white keys -->
-      <button type="button" class="white_key" data-piano-key-number="0" style="left: 50px;">Q</button>
-      <button type="button" class="white_key" data-piano-key-number="2" style="left: 100px;">W</button>
-      <button type="button" class="white_key" data-piano-key-number="4" style="left: 150px;">E</button>
-      <button type="button" class="white_key" data-piano-key-number="5" style="left: 200px;">R</button>
-      <button type="button" class="white_key" data-piano-key-number="7" style="left: 250px;">T</button>
-      <button type="button" class="white_key" data-piano-key-number="9" style="left: 300px;">Y</button>
-      <button type="button" class="white_key" data-piano-key-number="11" style="left: 350px;">U</button>
-      <button type="button" class="white_key" data-piano-key-number="12" style="left: 400px;">V</button>
-      <button type="button" class="white_key" data-piano-key-number="14" style="left: 450px;">B</button>
-      <button type="button" class="white_key" data-piano-key-number="16" style="left: 500px;">N</button>
-      <button type="button" class="white_key" data-piano-key-number="17" style="left: 550px;">M</button>
-      <button type="button" class="white_key" data-piano-key-number="19" style="left: 600px;">,</button>
-      <button type="button" class="white_key" data-piano-key-number="21" style="left: 650px;">.</button>
-      <button type="button" class="white_key" data-piano-key-number="23" style="left: 700px;">/</button>
+      <button type="button" class="white_key" data-piano-key-number="0" style="left: 50px;" id="keyQ">Q</button>
+      <button type="button" class="white_key" data-piano-key-number="2" style="left: 100px;" id="keyW">W</button>
+      <button type="button" class="white_key" data-piano-key-number="4" style="left: 150px;" id="keyE">E</button>
+      <button type="button" class="white_key" data-piano-key-number="5" style="left: 200px;" id="keyR">R</button>
+      <button type="button" class="white_key" data-piano-key-number="7" style="left: 250px;" id="keyT">T</button>
+      <button type="button" class="white_key" data-piano-key-number="9" style="left: 300px;" id="keyY">Y</button>
+      <button type="button" class="white_key" data-piano-key-number="11" style="left: 350px;" id="keyU">U</button>
+      <button type="button" class="white_key" data-piano-key-number="12" style="left: 400px;" id="keyV">V</button>
+      <button type="button" class="white_key" data-piano-key-number="14" style="left: 450px;" id="keyB">B</button>
+      <button type="button" class="white_key" data-piano-key-number="16" style="left: 500px;" id="keyN">N</button>
+      <button type="button" class="white_key" data-piano-key-number="17" style="left: 550px;" id="keyM">M</button>
+      <button type="button" class="white_key" data-piano-key-number="19" style="left: 600px;" id="keyComma">,</button>
+      <button type="button" class="white_key" data-piano-key-number="21" style="left: 650px;" id="keyPeriod">.</button>
+      <button type="button" class="white_key" data-piano-key-number="23" style="left: 700px;" id="keySlash">/</button>
 
       <!-- Now we draw the black keys, so they appear on top of the white keys
       (in a web page, things included later are normally shown on top of things included earlier) --> 
-      <button type="button" class="black_key" data-piano-key-number="1" style="left: 75px;">2</button>
-      <button type="button" class="black_key" data-piano-key-number="3" style="left: 125px;">3</button>
-      <button type="button" class="black_key" data-piano-key-number="6" style="left: 225px;">5</button>
-      <button type="button" class="black_key" data-piano-key-number="8" style="left: 275px;">6</button>
-      <button type="button" class="black_key" data-piano-key-number="10" style="left: 325px;">7</button>
-      <button type="button" class="black_key" data-piano-key-number="13" style="left: 425px;">G</button>
-      <button type="button" class="black_key" data-piano-key-number="15" style="left: 475px;">H</button>
-      <button type="button" class="black_key" data-piano-key-number="18" style="left: 575px;">K</button>
-      <button type="button" class="black_key" data-piano-key-number="20" style="left: 625px;">L</button>
-      <button type="button" class="black_key" data-piano-key-number="22" style="left: 675px;">;</button>
+      <button type="button" class="black_key" data-piano-key-number="1" style="left: 75px;" id="key2">2</button>
+      <button type="button" class="black_key" data-piano-key-number="3" style="left: 125px;" id="key3">3</button>
+      <button type="button" class="black_key" data-piano-key-number="6" style="left: 225px;" id="key5">5</button>
+      <button type="button" class="black_key" data-piano-key-number="8" style="left: 275px;" id="key6">6</button>
+      <button type="button" class="black_key" data-piano-key-number="10" style="left: 325px;" id="key7">7</button>
+      <button type="button" class="black_key" data-piano-key-number="13" style="left: 425px;" id="keyG">G</button>
+      <button type="button" class="black_key" data-piano-key-number="15" style="left: 475px;" id="keyH">H</button>
+      <button type="button" class="black_key" data-piano-key-number="18" style="left: 575px;" id="keyK">K</button>
+      <button type="button" class="black_key" data-piano-key-number="20" style="left: 625px;" id="keyL">L</button>
+      <button type="button" class="black_key" data-piano-key-number="22" style="left: 675px;" id="keySemicollon">;</button>
     </form>
 
     <label for="reverb"> <input id="reverb" name="reverb" value="yes" type="checkbox">Reverb</label><br>
@@ -105,6 +105,10 @@
       var this_amplitude = 100;
       var this_pitch;
       var lowest_pitch = 60; // The MIDI pitch number for the first (left) keyboard key
+      const whiteKey = "#FFFFFF";
+      const blackKey = "#000000";
+      const whiteKeyPressed = "#EEEEEE"
+      const blackKeyPressed = "#555555"
 
       function handlePianoKeyPress(evt) {
 
@@ -179,130 +183,356 @@
 
       };
 
-      function checkKey(e) {
+      function playNote(e) {
 
           e = e || window.event;
+          var target;
 
           if (e.keyCode == '81') {
               // Q
               MIDI.noteOn(0, lowest_pitch + 0, this_amplitude);
+              target = document.getElementById("keyQ");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '50') {
               // 2
               MIDI.noteOn(0, lowest_pitch + 1, this_amplitude);
+              target = document.getElementById("key2");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '87') {
               // W
               MIDI.noteOn(0, lowest_pitch + 2, this_amplitude);
+              target = document.getElementById("keyW");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '51') {
               // 3
               MIDI.noteOn(0, lowest_pitch + 3, this_amplitude);
+              target = document.getElementById("key3");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '69') {
               // E
               MIDI.noteOn(0, lowest_pitch + 4, this_amplitude);
+              target = document.getElementById("keyE");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '82') {
               // R
               MIDI.noteOn(0, lowest_pitch + 5, this_amplitude);
+              target = document.getElementById("keyR");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '53') {
               // 5
               MIDI.noteOn(0, lowest_pitch + 6, this_amplitude);
+              target = document.getElementById("key5");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '84') {
               // T
               MIDI.noteOn(0, lowest_pitch + 7, this_amplitude);
+              target = document.getElementById("keyT");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '54') {
               // 6
               MIDI.noteOn(0, lowest_pitch + 8, this_amplitude);
+              target = document.getElementById("key6");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '89') {
               // Y
               MIDI.noteOn(0, lowest_pitch + 9, this_amplitude);
+              target = document.getElementById("keyY");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '55') {
               // 7
               MIDI.noteOn(0, lowest_pitch + 10, this_amplitude);
+              target = document.getElementById("key7");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '85') {
               // U
               MIDI.noteOn(0, lowest_pitch + 11, this_amplitude);
+              target = document.getElementById("keyU");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '86') {
               // V
               MIDI.noteOn(0, lowest_pitch + 12, this_amplitude);
+              target = document.getElementById("keyV");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '71') {
               // G
               MIDI.noteOn(0, lowest_pitch + 13, this_amplitude);
+              target = document.getElementById("keyG");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '66') {
               // B
               MIDI.noteOn(0, lowest_pitch + 14, this_amplitude);
+              target = document.getElementById("keyB");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '72') {
               // H
               MIDI.noteOn(0, lowest_pitch + 15, this_amplitude);
+              target = document.getElementById("keyH");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '78') {
               // N
               MIDI.noteOn(0, lowest_pitch + 16, this_amplitude);
+              target = document.getElementById("keyN");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '77') {
               // M
               MIDI.noteOn(0, lowest_pitch + 17, this_amplitude);
+              target = document.getElementById("keyM");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '75') {
               // K
               MIDI.noteOn(0, lowest_pitch + 18, this_amplitude);
+              target = document.getElementById("keyK");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '188') {
               // ,
               MIDI.noteOn(0, lowest_pitch + 19, this_amplitude);
+              target = document.getElementById("keyComma");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '76') {
               // L
               MIDI.noteOn(0, lowest_pitch + 20, this_amplitude);
+              target = document.getElementById("keyL");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '190') {
               // .
               MIDI.noteOn(0, lowest_pitch + 21, this_amplitude);
+              target = document.getElementById("keyPeriod");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
           else if (e.keyCode == '186') {
               // ;
               MIDI.noteOn(0, lowest_pitch + 22, this_amplitude);
+              target = document.getElementById("keySemicollon");
+              target.style.backgroundColor = blackKeyPressed;
 
           }
           else if (e.keyCode == '191') {
               // /
               MIDI.noteOn(0, lowest_pitch + 23, this_amplitude);
+              target = document.getElementById("keySlash");
+              target.style.backgroundColor = whiteKeyPressed;
 
           }
+
+
+      }
+
+      function releaseNote(e){
+          e = e || window.event;
+          var target;
+
+          if (e.keyCode == '81') {
+              // Q
+              MIDI.noteOff(0, lowest_pitch + 0);
+              target = document.getElementById("keyQ");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '50') {
+              // 2
+              MIDI.noteOff(0, lowest_pitch + 1);
+              target = document.getElementById("key2");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '87') {
+              // W
+              MIDI.noteOff(0, lowest_pitch + 2);
+              target = document.getElementById("keyW");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '51') {
+              // 3
+              MIDI.noteOff(0, lowest_pitch + 3);
+              target = document.getElementById("key3");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '69') {
+              // E
+              MIDI.noteOff(0, lowest_pitch + 4);
+              target = document.getElementById("keyE");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '82') {
+              // R
+              MIDI.noteOff(0, lowest_pitch + 5);
+              target = document.getElementById("keyR");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '53') {
+              // 5
+              MIDI.noteOff(0, lowest_pitch + 6);
+              target = document.getElementById("key5");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '84') {
+              // T
+              MIDI.noteOff(0, lowest_pitch + 7);
+              target = document.getElementById("keyT");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '54') {
+              // 6
+              MIDI.noteOff(0, lowest_pitch + 8);
+              target = document.getElementById("key6");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '89') {
+              // Y
+              MIDI.noteOff(0, lowest_pitch + 9);
+              target = document.getElementById("keyY");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '55') {
+              // 7
+              MIDI.noteOff(0, lowest_pitch + 10);
+              target = document.getElementById("key7");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '85') {
+              // U
+              MIDI.noteOff(0, lowest_pitch + 11);
+              target = document.getElementById("keyU");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '86') {
+              // V
+              MIDI.noteOff(0, lowest_pitch + 12);
+              target = document.getElementById("keyV");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '71') {
+              // G
+              MIDI.noteOff(0, lowest_pitch + 13);
+              target = document.getElementById("keyG");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '66') {
+              // B
+              MIDI.noteOff(0, lowest_pitch + 14);
+              target = document.getElementById("keyB");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '72') {
+              // H
+              MIDI.noteOff(0, lowest_pitch + 15);
+              target = document.getElementById("keyH");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '78') {
+              // N
+              MIDI.noteOff(0, lowest_pitch + 16);
+              target = document.getElementById("keyN");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '77') {
+              // M
+              MIDI.noteOff(0, lowest_pitch + 17);
+              target = document.getElementById("keyM");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '75') {
+              // K
+              MIDI.noteOff(0, lowest_pitch + 18);
+              target = document.getElementById("keyK");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '188') {
+              // ,
+              MIDI.noteOff(0, lowest_pitch + 19);
+              target = document.getElementById("keyComma");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '76') {
+              // L
+              MIDI.noteOff(0, lowest_pitch + 20);
+              target = document.getElementById("keyL");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '190') {
+              // .
+              MIDI.noteOff(0, lowest_pitch + 21);
+              target = document.getElementById("keyPeriod");
+              target.style.backgroundColor = whiteKey;
+
+          }
+          else if (e.keyCode == '186') {
+              // ;
+              MIDI.noteOff(0, lowest_pitch + 22);
+              target = document.getElementById("keySemicollon");
+              target.style.backgroundColor = blackKey;
+
+          }
+          else if (e.keyCode == '191') {
+              // /
+              MIDI.noteOff(0, lowest_pitch + 23);
+              target = document.getElementById("keySlash");
+              target.style.backgroundColor = whiteKey;
+
+          }
+
 
       }
       $( document ).ready( function() {
@@ -317,7 +547,8 @@
                               // Set up the event handlers for all the buttons
                               $("button").on("mousedown", handlePianoKeyPress);
                               $("button").on("mouseup", handlePianoKeyRelease);
-                                document.onkeydown = checkKey;
+                                document.onkeydown = playNote;
+                                document.onkeyup = releaseNote;
                             }
           });
       });
