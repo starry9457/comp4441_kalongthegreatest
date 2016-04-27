@@ -719,7 +719,8 @@ out asig          ; output
 
       function saveSco() {
         var $link = $("#scoDownload");
-        var blob = new Blob([$("#scoreTextArea").text()], 
+        var text = document.getElementById("scoreTextArea").value;
+        var blob = new Blob([text], 
                   { type:"application/octect-stream" });
         var blobUrl = URL.createObjectURL(blob);
         var fileName = "sound.sco";
@@ -729,7 +730,8 @@ out asig          ; output
 
       function saveOrc() {
         var $link = $("#orcDownload");
-        var blob = new Blob([$("#orchestraTextArea").text()], 
+        var text = document.getElementById("orchestraTextArea").value;
+        var blob = new Blob([text], 
                   { type:"application/octect-stream" });
         var blobUrl = URL.createObjectURL(blob);
         var fileName = "sound.orc";
