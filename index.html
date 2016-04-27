@@ -38,7 +38,7 @@
                     padding-top: 100px; }
       .black_key, .white_key { width:50px; }
       .button1 { width:100px; 
-                 height:30px; }
+                 height:60px; }
       .filter_input { width:40px; }
     </style>
   
@@ -51,12 +51,13 @@
     <label for="lowest_pitch">Lowest pitch (21-85):</label> <input id="lowest_pitch" min="21" max="85" value="60" type="range"> <br>
  -->
     <br>
-
+<!--
     <form>
       Single note:<input name="musicMode" value="single" checked="checked" type="radio"><br>
       Major chord:<input name="musicMode" value="major" type="radio"><br>
       Minor chord:<input name="musicMode" value="minor" type="radio">
     </form>
+ -->
 
     <form>
       <!-- First we draw the white keys -->
@@ -98,8 +99,8 @@
 
     <br>
 
-    <input name="start_button" class="button1" id="waveform-frequency" value="Start" min="1" step="1" type="button">
-    <input name="end_button" class="button1" id="waveform-frequency" value="Finish" min="1" step="1" type="button">
+    <input name="start_button" class="button1" id="start_button" type="button" onclick="startTrack()" value="Start">
+    <input name="end_button" class="button1" id="end_button" type="button" onclick="finishTrack()" value="Finish">
 
     <script>
       var this_amplitude = 100;
@@ -109,6 +110,16 @@
       const blackKey = "#000000";
       const whiteKeyPressed = "#EEEEEE"
       const blackKeyPressed = "#555555"
+
+      function noteStart(pitch, amplitude = this_amplitude) {
+        console.log("Key press event! - noteStart - pitch = %d", pitch);
+        MIDI.noteOn(0, pitch, amplitude);
+      };
+
+      function noteStop(pitch) {
+        console.log("Key release event! - noteStop - pitch = %d", pitch);
+        MIDI.noteOff(0, pitch);
+      };
 
       function handlePianoKeyPress(evt) {
 
@@ -138,49 +149,51 @@
 
         // Handle chord mode
         // Single
-        if ($(":radio[name=musicMode]:checked").val() == "single"){
-          MIDI.noteOn(0, this_pitch, this_amplitude);
-        } 
-        // Major Chord: 0, 4, 7
-        else if ($(":radio[name=musicMode]:checked").val() == "major"){
-          MIDI.noteOn(0, this_pitch, this_amplitude);
-          MIDI.noteOn(0, this_pitch+4, this_amplitude);
-          MIDI.noteOn(0, this_pitch+7, this_amplitude);
-        }
-        // Minor Chord: 0, 3, 7
-        else if ($(":radio[name=musicMode]:checked").val() == "minor"){
-          MIDI.noteOn(0, this_pitch, this_amplitude);
-          MIDI.noteOn(0, this_pitch+3, this_amplitude);
-          MIDI.noteOn(0, this_pitch+7, this_amplitude);
-        }
-
+        // if ($(":radio[name=musicMode]:checked").val() == "single"){
+        //   MIDI.noteOn(0, this_pitch, this_amplitude);
+        // } 
+        // // Major Chord: 0, 4, 7
+        // else if ($(":radio[name=musicMode]:checked").val() == "major"){
+        //   MIDI.noteOn(0, this_pitch, this_amplitude);
+        //   MIDI.noteOn(0, this_pitch+4, this_amplitude);
+        //   MIDI.noteOn(0, this_pitch+7, this_amplitude);
+        // }
+        // // Minor Chord: 0, 3, 7
+        // else if ($(":radio[name=musicMode]:checked").val() == "minor"){
+        //   MIDI.noteOn(0, this_pitch, this_amplitude);
+        //   MIDI.noteOn(0, this_pitch+3, this_amplitude);
+        //   MIDI.noteOn(0, this_pitch+7, this_amplitude);
+        // }
+        noteStart(this_pitch);
       };
 
       function handlePianoKeyRelease(evt) {
         // Show a simple message in the console
         console.log("Key release event!");
+        var this_key = $(evt.target).data("pianoKeyNumber");
+        this_pitch = lowest_pitch + parseInt(this_key);
+        noteStop(this_pitch);
 
         // Send the note off message to match the pitch of the current note on event
         //MIDI.noteOff(0, this_pitch);
 
         // Handle chord mode
         // Single
-        if ($(":radio[name=musicMode]:checked").val() == "single"){
-          MIDI.noteOff(0, this_pitch);
-        } 
-        // Major Chord: 0, 4, 7
-        else if ($(":radio[name=musicMode]:checked").val() == "major"){
-          MIDI.noteOff(0, this_pitch);
-          MIDI.noteOff(0, this_pitch + 4);
-          MIDI.noteOff(0, this_pitch + 7);
-        }
-        // Minor Chord: 0, 3, 7
-        else if ($(":radio[name=musicMode]:checked").val() == "minor"){
-          MIDI.noteOff(0, this_pitch, this_amplitude);
-          MIDI.noteOff(0, this_pitch + 3);
-          MIDI.noteOff(0, this_pitch + 7);
-        }
-
+        // if ($(":radio[name=musicMode]:checked").val() == "single"){
+        //   MIDI.noteOff(0, this_pitch);
+        // } 
+        // // Major Chord: 0, 4, 7
+        // else if ($(":radio[name=musicMode]:checked").val() == "major"){
+        //   MIDI.noteOff(0, this_pitch);
+        //   MIDI.noteOff(0, this_pitch + 4);
+        //   MIDI.noteOff(0, this_pitch + 7);
+        // }
+        // // Minor Chord: 0, 3, 7
+        // else if ($(":radio[name=musicMode]:checked").val() == "minor"){
+        //   MIDI.noteOff(0, this_pitch, this_amplitude);
+        //   MIDI.noteOff(0, this_pitch + 3);
+        //   MIDI.noteOff(0, this_pitch + 7);
+        // }
       };
 
       function playNote(e) {
@@ -190,351 +203,349 @@
 
           if (e.keyCode == '81') {
               // Q
-              MIDI.noteOn(0, lowest_pitch + 0, this_amplitude);
+              noteStart(lowest_pitch);
+              // MIDI.noteOn(0, lowest_pitch + 0, this_amplitude);
               target = document.getElementById("keyQ");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '50') {
               // 2
-              MIDI.noteOn(0, lowest_pitch + 1, this_amplitude);
+              noteStart(lowest_pitch + 1);
+              // MIDI.noteOn(0, lowest_pitch + 1, this_amplitude);
               target = document.getElementById("key2");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '87') {
               // W
-              MIDI.noteOn(0, lowest_pitch + 2, this_amplitude);
+              noteStart(lowest_pitch + 2);
+              // MIDI.noteOn(0, lowest_pitch + 2, this_amplitude);
               target = document.getElementById("keyW");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '51') {
               // 3
-              MIDI.noteOn(0, lowest_pitch + 3, this_amplitude);
+              noteStart(lowest_pitch + 3);
+              // MIDI.noteOn(0, lowest_pitch + 3, this_amplitude);
               target = document.getElementById("key3");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '69') {
               // E
-              MIDI.noteOn(0, lowest_pitch + 4, this_amplitude);
+              noteStart(lowest_pitch + 4);
+              // MIDI.noteOn(0, lowest_pitch + 4, this_amplitude);
               target = document.getElementById("keyE");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '82') {
               // R
-              MIDI.noteOn(0, lowest_pitch + 5, this_amplitude);
+              noteStart(lowest_pitch + 5);
+              // MIDI.noteOn(0, lowest_pitch + 5, this_amplitude);
               target = document.getElementById("keyR");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '53') {
               // 5
-              MIDI.noteOn(0, lowest_pitch + 6, this_amplitude);
+              noteStart(lowest_pitch + 6);
+              // MIDI.noteOn(0, lowest_pitch + 6, this_amplitude);
               target = document.getElementById("key5");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '84') {
               // T
-              MIDI.noteOn(0, lowest_pitch + 7, this_amplitude);
+              noteStart(lowest_pitch + 7);
+              // MIDI.noteOn(0, lowest_pitch + 7, this_amplitude);
               target = document.getElementById("keyT");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '54') {
               // 6
-              MIDI.noteOn(0, lowest_pitch + 8, this_amplitude);
+              noteStart(lowest_pitch + 8);
+              // MIDI.noteOn(0, lowest_pitch + 8, this_amplitude);
               target = document.getElementById("key6");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '89') {
               // Y
-              MIDI.noteOn(0, lowest_pitch + 9, this_amplitude);
+              noteStart(lowest_pitch + 9);
+              // MIDI.noteOn(0, lowest_pitch + 9, this_amplitude);
               target = document.getElementById("keyY");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '55') {
               // 7
-              MIDI.noteOn(0, lowest_pitch + 10, this_amplitude);
+              noteStart(lowest_pitch + 10);
+              // MIDI.noteOn(0, lowest_pitch + 10, this_amplitude);
               target = document.getElementById("key7");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '85') {
               // U
-              MIDI.noteOn(0, lowest_pitch + 11, this_amplitude);
+              noteStart(lowest_pitch + 11);
+              // MIDI.noteOn(0, lowest_pitch + 11, this_amplitude);
               target = document.getElementById("keyU");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '86') {
               // V
-              MIDI.noteOn(0, lowest_pitch + 12, this_amplitude);
+              noteStart(lowest_pitch + 12);
+              // MIDI.noteOn(0, lowest_pitch + 12, this_amplitude);
               target = document.getElementById("keyV");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '71') {
               // G
-              MIDI.noteOn(0, lowest_pitch + 13, this_amplitude);
+              noteStart(lowest_pitch + 13);
+              // MIDI.noteOn(0, lowest_pitch + 13, this_amplitude);
               target = document.getElementById("keyG");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '66') {
               // B
-              MIDI.noteOn(0, lowest_pitch + 14, this_amplitude);
+              noteStart(lowest_pitch + 14);
+              // MIDI.noteOn(0, lowest_pitch + 14, this_amplitude);
               target = document.getElementById("keyB");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '72') {
               // H
-              MIDI.noteOn(0, lowest_pitch + 15, this_amplitude);
+              noteStart(lowest_pitch + 15);
+              // MIDI.noteOn(0, lowest_pitch + 15, this_amplitude);
               target = document.getElementById("keyH");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '78') {
               // N
-              MIDI.noteOn(0, lowest_pitch + 16, this_amplitude);
+              noteStart(lowest_pitch + 16);
+              // MIDI.noteOn(0, lowest_pitch + 16, this_amplitude);
               target = document.getElementById("keyN");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '77') {
               // M
-              MIDI.noteOn(0, lowest_pitch + 17, this_amplitude);
+              noteStart(lowest_pitch + 17);
+              // MIDI.noteOn(0, lowest_pitch + 17, this_amplitude);
               target = document.getElementById("keyM");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '75') {
               // K
-              MIDI.noteOn(0, lowest_pitch + 18, this_amplitude);
+              noteStart(lowest_pitch + 18);
+              // MIDI.noteOn(0, lowest_pitch + 18, this_amplitude);
               target = document.getElementById("keyK");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '188') {
               // ,
-              MIDI.noteOn(0, lowest_pitch + 19, this_amplitude);
+              noteStart(lowest_pitch + 19);
+              // MIDI.noteOn(0, lowest_pitch + 19, this_amplitude);
               target = document.getElementById("keyComma");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '76') {
               // L
-              MIDI.noteOn(0, lowest_pitch + 20, this_amplitude);
+              noteStart(lowest_pitch + 20);
+              // MIDI.noteOn(0, lowest_pitch + 20, this_amplitude);
               target = document.getElementById("keyL");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '190') {
               // .
-              MIDI.noteOn(0, lowest_pitch + 21, this_amplitude);
+              noteStart(lowest_pitch + 21);
+              // MIDI.noteOn(0, lowest_pitch + 21, this_amplitude);
               target = document.getElementById("keyPeriod");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
           else if (e.keyCode == '186') {
               // ;
-              MIDI.noteOn(0, lowest_pitch + 22, this_amplitude);
+              noteStart(lowest_pitch + 22);
+              // MIDI.noteOn(0, lowest_pitch + 22, this_amplitude);
               target = document.getElementById("keySemicollon");
               target.style.backgroundColor = blackKeyPressed;
-
           }
           else if (e.keyCode == '191') {
               // /
-              MIDI.noteOn(0, lowest_pitch + 23, this_amplitude);
+              noteStart(lowest_pitch + 23);
+              // MIDI.noteOn(0, lowest_pitch + 23, this_amplitude);
               target = document.getElementById("keySlash");
               target.style.backgroundColor = whiteKeyPressed;
-
           }
-
-
       }
 
-      function releaseNote(e){
+      function releaseNote(e) {
+
           e = e || window.event;
           var target;
 
           if (e.keyCode == '81') {
               // Q
-              MIDI.noteOff(0, lowest_pitch + 0);
+              noteStop(lowest_pitch);
+              // MIDI.noteOn(0, lowest_pitch + 0, this_amplitude);
               target = document.getElementById("keyQ");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '50') {
               // 2
-              MIDI.noteOff(0, lowest_pitch + 1);
+              noteStop(lowest_pitch + 1);
+              // MIDI.noteOn(0, lowest_pitch + 1, this_amplitude);
               target = document.getElementById("key2");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '87') {
               // W
-              MIDI.noteOff(0, lowest_pitch + 2);
+              noteStop(lowest_pitch + 2);
+              // MIDI.noteOn(0, lowest_pitch + 2, this_amplitude);
               target = document.getElementById("keyW");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '51') {
               // 3
-              MIDI.noteOff(0, lowest_pitch + 3);
+              noteStop(lowest_pitch + 3);
+              // MIDI.noteOn(0, lowest_pitch + 3, this_amplitude);
               target = document.getElementById("key3");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '69') {
               // E
-              MIDI.noteOff(0, lowest_pitch + 4);
+              noteStop(lowest_pitch + 4);
+              // MIDI.noteOn(0, lowest_pitch + 4, this_amplitude);
               target = document.getElementById("keyE");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '82') {
               // R
-              MIDI.noteOff(0, lowest_pitch + 5);
+              noteStop(lowest_pitch + 5);
+              // MIDI.noteOn(0, lowest_pitch + 5, this_amplitude);
               target = document.getElementById("keyR");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '53') {
               // 5
-              MIDI.noteOff(0, lowest_pitch + 6);
+              noteStop(lowest_pitch + 6);
+              // MIDI.noteOn(0, lowest_pitch + 6, this_amplitude);
               target = document.getElementById("key5");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '84') {
               // T
-              MIDI.noteOff(0, lowest_pitch + 7);
+              noteStop(lowest_pitch + 7);
+              // MIDI.noteOn(0, lowest_pitch + 7, this_amplitude);
               target = document.getElementById("keyT");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '54') {
               // 6
-              MIDI.noteOff(0, lowest_pitch + 8);
+              noteStop(lowest_pitch + 8);
+              // MIDI.noteOn(0, lowest_pitch + 8, this_amplitude);
               target = document.getElementById("key6");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '89') {
               // Y
-              MIDI.noteOff(0, lowest_pitch + 9);
+              noteStop(lowest_pitch + 9);
+              // MIDI.noteOn(0, lowest_pitch + 9, this_amplitude);
               target = document.getElementById("keyY");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '55') {
               // 7
-              MIDI.noteOff(0, lowest_pitch + 10);
+              noteStop(lowest_pitch + 10);
+              // MIDI.noteOn(0, lowest_pitch + 10, this_amplitude);
               target = document.getElementById("key7");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '85') {
               // U
-              MIDI.noteOff(0, lowest_pitch + 11);
+              noteStop(lowest_pitch + 11);
+              // MIDI.noteOn(0, lowest_pitch + 11, this_amplitude);
               target = document.getElementById("keyU");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '86') {
               // V
-              MIDI.noteOff(0, lowest_pitch + 12);
+              noteStop(lowest_pitch + 12);
+              // MIDI.noteOn(0, lowest_pitch + 12, this_amplitude);
               target = document.getElementById("keyV");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '71') {
               // G
-              MIDI.noteOff(0, lowest_pitch + 13);
+              noteStop(lowest_pitch + 13);
+              // MIDI.noteOn(0, lowest_pitch + 13, this_amplitude);
               target = document.getElementById("keyG");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '66') {
               // B
-              MIDI.noteOff(0, lowest_pitch + 14);
+              noteStop(lowest_pitch + 14);
+              // MIDI.noteOn(0, lowest_pitch + 14, this_amplitude);
               target = document.getElementById("keyB");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '72') {
               // H
-              MIDI.noteOff(0, lowest_pitch + 15);
+              noteStop(lowest_pitch + 15);
+              // MIDI.noteOn(0, lowest_pitch + 15, this_amplitude);
               target = document.getElementById("keyH");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '78') {
               // N
-              MIDI.noteOff(0, lowest_pitch + 16);
+              noteStop(lowest_pitch + 16);
+              // MIDI.noteOn(0, lowest_pitch + 16, this_amplitude);
               target = document.getElementById("keyN");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '77') {
               // M
-              MIDI.noteOff(0, lowest_pitch + 17);
+              noteStop(lowest_pitch + 17);
+              // MIDI.noteOn(0, lowest_pitch + 17, this_amplitude);
               target = document.getElementById("keyM");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '75') {
               // K
-              MIDI.noteOff(0, lowest_pitch + 18);
+              noteStop(lowest_pitch + 18);
+              // MIDI.noteOn(0, lowest_pitch + 18, this_amplitude);
               target = document.getElementById("keyK");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '188') {
               // ,
-              MIDI.noteOff(0, lowest_pitch + 19);
+              noteStop(lowest_pitch + 19);
+              // MIDI.noteOn(0, lowest_pitch + 19, this_amplitude);
               target = document.getElementById("keyComma");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '76') {
               // L
-              MIDI.noteOff(0, lowest_pitch + 20);
+              noteStop(lowest_pitch + 20);
+              // MIDI.noteOn(0, lowest_pitch + 20, this_amplitude);
               target = document.getElementById("keyL");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '190') {
               // .
-              MIDI.noteOff(0, lowest_pitch + 21);
+              noteStop(lowest_pitch + 21);
+              // MIDI.noteOn(0, lowest_pitch + 21, this_amplitude);
               target = document.getElementById("keyPeriod");
               target.style.backgroundColor = whiteKey;
-
           }
           else if (e.keyCode == '186') {
               // ;
-              MIDI.noteOff(0, lowest_pitch + 22);
+              noteStop(lowest_pitch + 22);
+              // MIDI.noteOn(0, lowest_pitch + 22, this_amplitude);
               target = document.getElementById("keySemicollon");
               target.style.backgroundColor = blackKey;
-
           }
           else if (e.keyCode == '191') {
               // /
-              MIDI.noteOff(0, lowest_pitch + 23);
+              noteStop(lowest_pitch + 23);
+              // MIDI.noteOn(0, lowest_pitch + 23, this_amplitude);
               target = document.getElementById("keySlash");
               target.style.backgroundColor = whiteKey;
-
           }
-
-
       }
+
       $( document ).ready( function() {
           MIDI.loadPlugin({ soundfontUrl: "./midi-js/soundfont/",
                             instrument: "acoustic_grand_piano",
@@ -552,6 +563,18 @@
                             }
           });
       });
+
+      function startTrack() {
+        document.getElementById("start_button").disabled = true;
+
+
+
+      }
+
+      function finishTrack() {
+        document.getElementById("start_button").disabled = false;
+
+      }
     </script>
   </body>
 </html>
