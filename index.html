@@ -29,16 +29,17 @@
       .black_key { height:100px;
                    background:black;
                    position:absolute;
-                   top:260px }
+                   top:260px;
+                    color: white}
       .white_key { height:150px; 
                    background:white;
                    position:absolute; 
-                   top:260px }
+                   top:260px;
+                    padding-top: 100px; }
       .black_key, .white_key { width:50px; }
       .button1 { width:100px; 
                  height:30px; }
-      .filter_input { width:40
-        px; }
+      .filter_input { width:40px; }
     </style>
   
     <title>COMP4441</title>
@@ -59,33 +60,33 @@
 
     <form>
       <!-- First we draw the white keys -->
-      <button type="button" class="white_key" data-piano-key-number="0" style="left: 50px;"></button>
-      <button type="button" class="white_key" data-piano-key-number="2" style="left: 100px;"></button>
-      <button type="button" class="white_key" data-piano-key-number="4" style="left: 150px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="5" style="left: 200px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="7" style="left: 250px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="9" style="left: 300px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="11" style="left: 350px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="12" style="left: 400px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="14" style="left: 450px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="16" style="left: 500px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="17" style="left: 550px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="19" style="left: 600px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="21" style="left: 650px;"></button> 
-      <button type="button" class="white_key" data-piano-key-number="23" style="left: 700px;"></button>
+      <button type="button" class="white_key" data-piano-key-number="0" style="left: 50px;">Q</button>
+      <button type="button" class="white_key" data-piano-key-number="2" style="left: 100px;">W</button>
+      <button type="button" class="white_key" data-piano-key-number="4" style="left: 150px;">E</button>
+      <button type="button" class="white_key" data-piano-key-number="5" style="left: 200px;">R</button>
+      <button type="button" class="white_key" data-piano-key-number="7" style="left: 250px;">T</button>
+      <button type="button" class="white_key" data-piano-key-number="9" style="left: 300px;">Y</button>
+      <button type="button" class="white_key" data-piano-key-number="11" style="left: 350px;">U</button>
+      <button type="button" class="white_key" data-piano-key-number="12" style="left: 400px;">V</button>
+      <button type="button" class="white_key" data-piano-key-number="14" style="left: 450px;">B</button>
+      <button type="button" class="white_key" data-piano-key-number="16" style="left: 500px;">N</button>
+      <button type="button" class="white_key" data-piano-key-number="17" style="left: 550px;">M</button>
+      <button type="button" class="white_key" data-piano-key-number="19" style="left: 600px;">,</button>
+      <button type="button" class="white_key" data-piano-key-number="21" style="left: 650px;">.</button>
+      <button type="button" class="white_key" data-piano-key-number="23" style="left: 700px;">/</button>
 
       <!-- Now we draw the black keys, so they appear on top of the white keys
       (in a web page, things included later are normally shown on top of things included earlier) --> 
-      <button type="button" class="black_key" data-piano-key-number="1" style="left: 75px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="3" style="left: 125px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="6" style="left: 225px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="8" style="left: 275px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="10" style="left: 325px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="13" style="left: 425px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="15" style="left: 475px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="18" style="left: 575px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="20" style="left: 625px;"></button> 
-      <button type="button" class="black_key" data-piano-key-number="22" style="left: 675px;"></button> 
+      <button type="button" class="black_key" data-piano-key-number="1" style="left: 75px;">2</button>
+      <button type="button" class="black_key" data-piano-key-number="3" style="left: 125px;">3</button>
+      <button type="button" class="black_key" data-piano-key-number="6" style="left: 225px;">5</button>
+      <button type="button" class="black_key" data-piano-key-number="8" style="left: 275px;">6</button>
+      <button type="button" class="black_key" data-piano-key-number="10" style="left: 325px;">7</button>
+      <button type="button" class="black_key" data-piano-key-number="13" style="left: 425px;">G</button>
+      <button type="button" class="black_key" data-piano-key-number="15" style="left: 475px;">H</button>
+      <button type="button" class="black_key" data-piano-key-number="18" style="left: 575px;">K</button>
+      <button type="button" class="black_key" data-piano-key-number="20" style="left: 625px;">L</button>
+      <button type="button" class="black_key" data-piano-key-number="22" style="left: 675px;">;</button>
     </form>
 
     <label for="reverb"> <input id="reverb" name="reverb" value="yes" type="checkbox">Reverb</label><br>
@@ -178,6 +179,132 @@
 
       };
 
+      function checkKey(e) {
+
+          e = e || window.event;
+
+          if (e.keyCode == '81') {
+              // Q
+              MIDI.noteOn(0, lowest_pitch + 0, this_amplitude);
+
+          }
+          else if (e.keyCode == '50') {
+              // 2
+              MIDI.noteOn(0, lowest_pitch + 1, this_amplitude);
+
+          }
+          else if (e.keyCode == '87') {
+              // W
+              MIDI.noteOn(0, lowest_pitch + 2, this_amplitude);
+
+          }
+          else if (e.keyCode == '51') {
+              // 3
+              MIDI.noteOn(0, lowest_pitch + 3, this_amplitude);
+
+          }
+          else if (e.keyCode == '69') {
+              // E
+              MIDI.noteOn(0, lowest_pitch + 4, this_amplitude);
+
+          }
+          else if (e.keyCode == '82') {
+              // R
+              MIDI.noteOn(0, lowest_pitch + 5, this_amplitude);
+
+          }
+          else if (e.keyCode == '53') {
+              // 5
+              MIDI.noteOn(0, lowest_pitch + 6, this_amplitude);
+
+          }
+          else if (e.keyCode == '84') {
+              // T
+              MIDI.noteOn(0, lowest_pitch + 7, this_amplitude);
+
+          }
+          else if (e.keyCode == '54') {
+              // 6
+              MIDI.noteOn(0, lowest_pitch + 8, this_amplitude);
+
+          }
+          else if (e.keyCode == '89') {
+              // Y
+              MIDI.noteOn(0, lowest_pitch + 9, this_amplitude);
+
+          }
+          else if (e.keyCode == '55') {
+              // 7
+              MIDI.noteOn(0, lowest_pitch + 10, this_amplitude);
+
+          }
+          else if (e.keyCode == '85') {
+              // U
+              MIDI.noteOn(0, lowest_pitch + 11, this_amplitude);
+
+          }
+          else if (e.keyCode == '86') {
+              // V
+              MIDI.noteOn(0, lowest_pitch + 12, this_amplitude);
+
+          }
+          else if (e.keyCode == '71') {
+              // G
+              MIDI.noteOn(0, lowest_pitch + 13, this_amplitude);
+
+          }
+          else if (e.keyCode == '66') {
+              // B
+              MIDI.noteOn(0, lowest_pitch + 14, this_amplitude);
+
+          }
+          else if (e.keyCode == '72') {
+              // H
+              MIDI.noteOn(0, lowest_pitch + 15, this_amplitude);
+
+          }
+          else if (e.keyCode == '78') {
+              // N
+              MIDI.noteOn(0, lowest_pitch + 16, this_amplitude);
+
+          }
+          else if (e.keyCode == '77') {
+              // M
+              MIDI.noteOn(0, lowest_pitch + 17, this_amplitude);
+
+          }
+          else if (e.keyCode == '75') {
+              // K
+              MIDI.noteOn(0, lowest_pitch + 18, this_amplitude);
+
+          }
+          else if (e.keyCode == '188') {
+              // ,
+              MIDI.noteOn(0, lowest_pitch + 19, this_amplitude);
+
+          }
+          else if (e.keyCode == '76') {
+              // L
+              MIDI.noteOn(0, lowest_pitch + 20, this_amplitude);
+
+          }
+          else if (e.keyCode == '190') {
+              // .
+              MIDI.noteOn(0, lowest_pitch + 21, this_amplitude);
+
+          }
+          else if (e.keyCode == '186') {
+              // ;
+              MIDI.noteOn(0, lowest_pitch + 22, this_amplitude);
+
+          }
+          else if (e.keyCode == '191') {
+              // /
+              MIDI.noteOn(0, lowest_pitch + 23, this_amplitude);
+
+          }
+
+      }
       $( document ).ready( function() {
           MIDI.loadPlugin({ soundfontUrl: "./midi-js/soundfont/",
                             instrument: "acoustic_grand_piano",
@@ -190,6 +317,7 @@
                               // Set up the event handlers for all the buttons
                               $("button").on("mousedown", handlePianoKeyPress);
                               $("button").on("mouseup", handlePianoKeyRelease);
+                                document.onkeydown = checkKey;
                             }
           });
       });
