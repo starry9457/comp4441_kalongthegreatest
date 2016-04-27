@@ -29,12 +29,12 @@
       .black_key { height:100px;
                    background:black;
                    position:absolute;
-                   top:260px;
+                   top:10px;
                     color: white}
       .white_key { height:150px; 
                    background:white;
                    position:absolute; 
-                   top:260px;
+                   top:10px;
                     padding-top: 100px; }
       .black_key, .white_key { width:50px; }
       .button1 { width:100px; 
@@ -90,17 +90,73 @@
       <button type="button" class="black_key" data-piano-key-number="22" style="left: 675px;" id="keySemicollon">;</button>
     </form>
 
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
     <label for="reverb"> <input id="reverb" name="reverb" value="yes" type="checkbox">Reverb</label><br>
     <label for="filter"> <input id="filter" name="filter" value="yes" type="checkbox">Filter&nbsp;&nbsp;&nbsp; </label> 
         <input name="filter_low" class="filter_input" id="filter_low" value="0">Hz to 
         <input name="filter_high" class="filter_input" id="filter_high" value="1000">Hz<br>
     <label for="vibrato"> <input name="vibrato" id="vibrato" value="yes" type="checkbox">Vibrato</label><br>
     <label for="tremolo"> <input id="tremolo" name="tremolo" value="yes" type="checkbox">Tremolo</label><br>
-
+    
     <br>
 
     <input name="start_button" class="button1" id="start_button" type="button" onclick="startTrack()" value="Start">
     <input name="end_button" class="button1" id="end_button" type="button" onclick="finishTrack()" value="Finish">
+
+    <br>
+
+    <table>
+      <tr>
+        <td>The score file:</td>
+        <td>The orchestra file:</td>
+      </tr>
+      <tr>
+        <td>
+        <!--Default with Clarinet -->
+          <textarea id="scoreTextArea" style="width: 512px; height: 256px">
+f1 0 16385 10 846 284 473 44 70 67 36 36 13 4 
+
+; start dur amp pitch attck decay
+</textarea>
+        <!--Default template -->
+          <textarea id="orchestraTextArea" style="width: 512px; height: 256px">
+  sr = 44100
+  kr = 2205
+  ksmps = 20
+  nchnls = 1
+;--------------------------------------------------------------------
+instr  1        ; sine wave
+
+idur    = p3
+iamp    = p4      ; p4 controls the amplitude
+ifreq   = cpspch(p5)    ; set tuning ratio in Hertz
+iattack   = p6      ; attack time
+idecay    = p7      ; decay time
+iwave   = 1
+
+isus    = idur - iattack - idecay ; sustain is remaining duration
+
+
+aenv  linseg  0,iattack,iamp,isus,iamp,idecay,0 ; amp. env.
+asig  oscili  aenv,ifreq,iwave      ; signal
+
+ out asig          ; output
+  endin
+;--------------------------------------------------------------------
+
+</textarea>
+        </td>
+      </tr>
+    </table>
 
     <script>
       var this_amplitude = 100;
@@ -110,14 +166,25 @@
       const blackKey = "#000000";
       const whiteKeyPressed = "#EEEEEE"
       const blackKeyPressed = "#555555"
+      var tracking = false;
+
+      var startTime;
+      var lastKeyStartTime;
+      var lastKeyEndTime;
 
       function noteStart(pitch, amplitude = this_amplitude) {
         console.log("Key press event! - noteStart - pitch = %d", pitch);
+        lastKeyStartTime = new Date();
         MIDI.noteOn(0, pitch, amplitude);
       };
 
       function noteStop(pitch) {
         console.log("Key release event! - noteStop - pitch = %d", pitch);
+        lastKeyEndTime = new Date();
+        start = timeDiff (startTime, lastKeyStartTime);
+        dur = timeDiff (lastKeyStartTime, lastKeyEndTime);
+        cpspch = pitchconvert(pitch);
+        writeScoreLine(start, dur, cpspch);
         MIDI.noteOff(0, pitch);
       };
 
@@ -546,6 +613,52 @@
           }
       }
 
+      function timeDiff(startTime, endTime) {
+        // Convert both dates to milliseconds
+        var startTime_ms = startTime.getTime();
+        var endTime_ms = endTime.getTime();
+
+        // Calculate the difference in milliseconds
+        var difference_ms = endTime_ms - startTime_ms;
+        var tmp = difference_ms / 1000;
+        console.log("Time difference is %f", tmp);
+
+        return tmp;
+      }
+
+      function pitchconvert(pitch) {
+        var div = Math.floor(pitch / 12) + 3;
+        var rem = pitch % 12;
+        var cpspch;
+        if (rem == 0) {
+          cpspch = div + ".00"
+        }
+        else {
+          cpspch = div + (rem / 100);
+        }
+        console.log("Converted cpspch: %f", cpspch);
+
+        return cpspch;
+      }
+
+      function writeScoreLine(start = 0,
+                              dur = 0,
+                              cpspch = 0.00,
+                              instrument = "i1",
+                              amp = "4000", 
+                              attack = ".02",
+                              decay = ".05") {
+        // ; start dur amp cpspch attck decay
+        var str = instrument + " " + 
+                  start + " " + 
+                  dur + " " + 
+                  amp + " " +
+                  cpspch + " " + 
+                  attack + " " + 
+                  decay + '\n';
+        document.getElementById("scoreTextArea").value = document.getElementById("scoreTextArea").value + str;
+      }
+
       $( document ).ready( function() {
           MIDI.loadPlugin({ soundfontUrl: "./midi-js/soundfont/",
                             instrument: "acoustic_grand_piano",
@@ -558,23 +671,32 @@
                               // Set up the event handlers for all the buttons
                               $("button").on("mousedown", handlePianoKeyPress);
                               $("button").on("mouseup", handlePianoKeyRelease);
-                                document.onkeydown = playNote;
-                                document.onkeyup = releaseNote;
+                              document.onkeydown = playNote;
+                              document.onkeyup = releaseNote;
                             }
           });
       });
 
       function startTrack() {
         document.getElementById("start_button").disabled = true;
-
-
-
+        tracking = true;
+        startTime = new Date();
+        var str = "; Start Button pressed at " + startTime + '\n';
+        document.getElementById("scoreTextArea").value = document.getElementById("scoreTextArea").value + str;
       }
 
       function finishTrack() {
         document.getElementById("start_button").disabled = false;
+        tracking = false;
+        var finishTime = new Date();
+        var str = "; End Button pressed at " + finishTime + '\n';
+        var diff = timeDiff(startTime, finishTime);
+        var str2 = "; Total time: " + diff + "s\n";
+        document.getElementById("scoreTextArea").value = document.getElementById("scoreTextArea").value + str + str2;
 
+        document.getElementById("scoreTextArea").value = document.getElementById("scoreTextArea").value + "\nend";
       }
+      
     </script>
   </body>
 </html>
