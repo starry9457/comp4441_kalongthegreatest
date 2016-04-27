@@ -42,7 +42,7 @@
       .filter_input { width:40px; }
     </style>
   
-    <title>COMP4441</title>
+    <title>COMP4441 Project: MIDI keyboard with audio processing controller</title>
   </head>
 
   <body>
@@ -121,13 +121,15 @@
       </tr>
       <tr>
         <td>
-        <!--Default with Clarinet -->
+          <!--Default with Clarinet -->
           <textarea id="scoreTextArea" style="width: 512px; height: 256px">
 f1 0 16385 10 846 284 473 44 70 67 36 36 13 4 
 
 ; start dur amp pitch attck decay
 </textarea>
-        <!--Default template -->
+        </td>
+        <td>
+          <!--Default template -->
           <textarea id="orchestraTextArea" style="width: 512px; height: 256px">
   sr = 44100
   kr = 2205
@@ -149,14 +151,26 @@ isus    = idur - iattack - idecay ; sustain is remaining duration
 aenv  linseg  0,iattack,iamp,isus,iamp,idecay,0 ; amp. env.
 asig  oscili  aenv,ifreq,iwave      ; signal
 
- out asig          ; output
+out asig          ; output
   endin
 ;--------------------------------------------------------------------
 
 </textarea>
         </td>
       </tr>
+      <tr>
+        <td>
+          <input name="saveScore_button" class="button1" id="saveScore_button" type="button" onclick="saveSco()" value="Save .sco file" disabled="true">
+          <a id='scoDownload'></a>
+        </td>
+        <td>
+          <input name="saveOrchestra_button" class="button1" id="saveOrchestra_button" type="button" onclick="saveOrc()" value="Save .orc file" disabled="true">
+          <a id='orcDownload'></a>
+        </td>
+      </tr>
     </table>
+
+
 
     <script>
       var this_amplitude = 100;
@@ -174,17 +188,21 @@ asig  oscili  aenv,ifreq,iwave      ; signal
 
       function noteStart(pitch, amplitude = this_amplitude) {
         console.log("Key press event! - noteStart - pitch = %d", pitch);
-        lastKeyStartTime = new Date();
+        if (tracking) {
+          lastKeyStartTime = new Date();
+        }
         MIDI.noteOn(0, pitch, amplitude);
       };
 
       function noteStop(pitch) {
         console.log("Key release event! - noteStop - pitch = %d", pitch);
-        lastKeyEndTime = new Date();
-        start = timeDiff (startTime, lastKeyStartTime);
-        dur = timeDiff (lastKeyStartTime, lastKeyEndTime);
-        cpspch = pitchconvert(pitch);
-        writeScoreLine(start, dur, cpspch);
+        if (tracking) {
+          lastKeyEndTime = new Date();
+          start = timeDiff (startTime, lastKeyStartTime);
+          dur = timeDiff (lastKeyStartTime, lastKeyEndTime);
+          cpspch = pitchconvert(pitch);
+          writeScoreLine(start, dur, cpspch);
+        }
         MIDI.noteOff(0, pitch);
       };
 
@@ -687,6 +705,8 @@ asig  oscili  aenv,ifreq,iwave      ; signal
 
       function finishTrack() {
         document.getElementById("start_button").disabled = false;
+        document.getElementById("saveScore_button").disabled = false;
+        document.getElementById("saveOrchestra_button").disabled = false;
         tracking = false;
         var finishTime = new Date();
         var str = "; End Button pressed at " + finishTime + '\n';
@@ -696,7 +716,27 @@ asig  oscili  aenv,ifreq,iwave      ; signal
 
         document.getElementById("scoreTextArea").value = document.getElementById("scoreTextArea").value + "\nend";
       }
-      
+
+      function saveSco() {
+        var $link = $("#scoDownload");
+        var blob = new Blob([$("#scoreTextArea").text()], 
+                  { type:"application/octect-stream" });
+        var blobUrl = URL.createObjectURL(blob);
+        var fileName = "sound.sco";
+        $link.attr({ href: blobUrl, download: fileName })
+             .text(fileName).removeClass("revoke");
+      }
+
+      function saveOrc() {
+        var $link = $("#orcDownload");
+        var blob = new Blob([$("#orchestraTextArea").text()], 
+                  { type:"application/octect-stream" });
+        var blobUrl = URL.createObjectURL(blob);
+        var fileName = "sound.orc";
+        $link.attr({ href: blobUrl, download: fileName })
+             .text(fileName).removeClass("revoke");
+      }
+
     </script>
   </body>
 </html>
