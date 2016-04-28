@@ -139,6 +139,7 @@
         <td>
           <!--Default with Clarinet -->
           <textarea id="scoreTextArea" style="width: 512px; height: 256px">
+;sound.sco
 f1 0 16385 10 846 284 473 44 70 67 36 36 13 4 
 
 ; start dur amp pitch attck decay
@@ -147,27 +148,28 @@ f1 0 16385 10 846 284 473 44 70 67 36 36 13 4
         <td>
           <!--Default template -->
           <textarea id="orchestraTextArea" style="width: 512px; height: 256px">
+;sound.orc
   sr = 44100
   kr = 2205
   ksmps = 20
   nchnls = 1
 ;--------------------------------------------------------------------
-instr  1        ; sine wave
+instr  1              ; sine wave
 
 idur    = p3
-iamp    = p4      ; p4 controls the amplitude
-ifreq   = cpspch(p5)    ; set tuning ratio in Hertz
-iattack   = p6      ; attack time
-idecay    = p7      ; decay time
+iamp    = p4          ; p4 controls the amplitude
+ifreq   = cpspch(p5)  ; set tuning ratio in Hertz
+iattack = p6          ; attack time
+idecay  = p7          ; decay time
 iwave   = 1
 
 isus    = idur - iattack - idecay ; sustain is remaining duration
 
 
-aenv  linseg  0,iattack,iamp,isus,iamp,idecay,0 ; amp. env.
-asig  oscili  aenv,ifreq,iwave      ; signal
+aenv  linseg  0, iattack, iamp, isus, iamp, idecay, 0 ; amp. env.
+asig  oscili  aenv, ifreq, iwave      ; signal
 
-out asig          ; output
+out   asig          ; output
   endin
 ;--------------------------------------------------------------------
 
