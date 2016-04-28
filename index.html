@@ -51,18 +51,7 @@
   </head>
 
   <body>
-<!--   
-    <label for="amplitude">MIDI amplitude (0-127):</label> <input id="amplitude" min="0" max="127" value="100" type="range"> <br>
-    <label for="lowest_pitch">Lowest pitch (21-85):</label> <input id="lowest_pitch" min="21" max="85" value="60" type="range"> <br>
- -->
     <br>
-<!--
-    <form>
-      Single note:<input name="musicMode" value="single" checked="checked" type="radio"><br>
-      Major chord:<input name="musicMode" value="major" type="radio"><br>
-      Minor chord:<input name="musicMode" value="minor" type="radio">
-    </form>
- -->
 
     <form>
       <!-- First we draw the white keys -->
@@ -116,13 +105,6 @@
       <!-- <input name="mode" value="tremolo" type="radio">Tremolo -->
     </form>
 
-<!--     <label for="reverb"> <input id="reverb" name="reverb" value="yes" type="checkbox">Reverb</label><br>
-    <label for="filter"> <input id="filter" name="filter" value="yes" type="checkbox">Filter&nbsp;&nbsp;&nbsp; </label> 
-        <input name="filter_low" class="filter_input" id="filter_low" value="0">Hz to 
-        <input name="filter_high" class="filter_input" id="filter_high" value="1000">Hz<br>
-    <label for="vibrato"> <input name="vibrato" id="vibrato" value="yes" type="checkbox">Vibrato</label><br>
-    <label for="tremolo"> <input id="tremolo" name="tremolo" value="yes" type="checkbox">Tremolo</label><br>
-     -->
     <br>
 
     <input name="start_button" class="button1" id="start_button" type="button" onclick="startTrack()" value="Start">
@@ -229,48 +211,15 @@ out   asig          ; output
       };
 
       function handlePianoKeyPress(evt) {
-
         var this_key;
 
         // Show a simple message in the console
         console.log("Key press event!");
 
-        // Determine which piano key has been pressed.
-        // 'evt.target' tells us exactly which item triggered this function.
-        // The piano key number is taken from the 'data-piano-key-number' attribute of each button.
-        // The piano key number is a value in the range 0 to 23 inclusive.
         this_key = $(evt.target).data("pianoKeyNumber");
 
-        // lowest_pitch = $("#lowest_pitch").val();
-        // lowest_pitch = parseInt(lowest_pitch);
         this_pitch = lowest_pitch + parseInt(this_key);
 
-        // Extract the amplitude value from the slider
-        // this_amplitude = $("#amplitude").val();
-
-        // Convert the string into actual values
-        // this_amplitude = parseInt(this_amplitude);
-
-        // Use the two numbers to start a MIDI note
-        //MIDI.noteOn(0, this_pitch, this_amplitude);
-
-        // Handle chord mode
-        // Single
-        // if ($(":radio[name=musicMode]:checked").val() == "single"){
-        //   MIDI.noteOn(0, this_pitch, this_amplitude);
-        // } 
-        // // Major Chord: 0, 4, 7
-        // else if ($(":radio[name=musicMode]:checked").val() == "major"){
-        //   MIDI.noteOn(0, this_pitch, this_amplitude);
-        //   MIDI.noteOn(0, this_pitch+4, this_amplitude);
-        //   MIDI.noteOn(0, this_pitch+7, this_amplitude);
-        // }
-        // // Minor Chord: 0, 3, 7
-        // else if ($(":radio[name=musicMode]:checked").val() == "minor"){
-        //   MIDI.noteOn(0, this_pitch, this_amplitude);
-        //   MIDI.noteOn(0, this_pitch+3, this_amplitude);
-        //   MIDI.noteOn(0, this_pitch+7, this_amplitude);
-        // }
         noteStart(this_pitch);
       };
 
@@ -280,27 +229,6 @@ out   asig          ; output
         var this_key = $(evt.target).data("pianoKeyNumber");
         this_pitch = lowest_pitch + parseInt(this_key);
         noteStop(this_pitch);
-
-        // Send the note off message to match the pitch of the current note on event
-        //MIDI.noteOff(0, this_pitch);
-
-        // Handle chord mode
-        // Single
-        // if ($(":radio[name=musicMode]:checked").val() == "single"){
-        //   MIDI.noteOff(0, this_pitch);
-        // } 
-        // // Major Chord: 0, 4, 7
-        // else if ($(":radio[name=musicMode]:checked").val() == "major"){
-        //   MIDI.noteOff(0, this_pitch);
-        //   MIDI.noteOff(0, this_pitch + 4);
-        //   MIDI.noteOff(0, this_pitch + 7);
-        // }
-        // // Minor Chord: 0, 3, 7
-        // else if ($(":radio[name=musicMode]:checked").val() == "minor"){
-        //   MIDI.noteOff(0, this_pitch, this_amplitude);
-        //   MIDI.noteOff(0, this_pitch + 3);
-        //   MIDI.noteOff(0, this_pitch + 7);
-        // }
       };
 
       function playNote(e) {
