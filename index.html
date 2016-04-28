@@ -107,13 +107,13 @@
 
     <form>
       <input name="mode" onclick="musicMode('default')" value="default" checked="checked" type="radio">Default (no post-processing)<br>
-      <input name="mode" value="reverb" type="radio">Reverb<br>
+      <!-- <input name="mode" value="reverb" type="radio">Reverb<br> -->
       <input name="mode" onclick="musicMode('filter')" value="filter" type="radio">Filter(Set the frequency before you check): 
         <input name="filter_fr" class="filter_input" id="filter_fr" value="0">Hz
           <input name="filter" value="low_filter" checked="checked" type="radio">Low pass
           <input name="filter" value="high_filter" type="radio">High pass<br>
-      <input name="mode" value="vibrato" type="radio">Vibrato<br>
-      <input name="mode" value="tremolo" type="radio">Tremolo
+      <input name="mode" onclick="musicMode('vibrato')" value="vibrato" type="radio">Vibrato<br>
+      <!-- <input name="mode" value="tremolo" type="radio">Tremolo -->
     </form>
 
 <!--     <label for="reverb"> <input id="reverb" name="reverb" value="yes" type="checkbox">Reverb</label><br>

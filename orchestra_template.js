@@ -23,7 +23,7 @@ function musicMode(mode) {
             ";--------------------------------------------------------------------\n"
     }
     else if (mode == "filter") {
-        var tmp, filter_low, filter_high;
+        var tmp, filter_fr;
         tmp = document.getElementById("filter_fr").value;
         filter_fr = parseInt(tmp);
 
@@ -83,5 +83,35 @@ function musicMode(mode) {
                 "    endin\n" + 
                 ";--------------------------------------------------------------------\n"   
         }
+    }
+    else if (mode == "vibrato") {
+        document.getElementById("orchestraTextArea").value = 
+            ";sound.orc\n" + 
+            "    sr = 44100\n" + 
+            "    kr = 4410\n" + 
+            "    ksmps = 10\n" + 
+            "    nchnls = 1\n" + 
+            ";--------------------------------------------------------------------\n" + 
+            "instr  1                ; sine wave\n\n" +
+            "idur    = p3\n" + 
+            "iamp    = p4            ; p4 controls the amplitude\n" + 
+            "index   = 4             ; modulation index\n" +  
+            "ifreq   = cpspch(p5)    ; set tuning ratio in Hertz\n" + 
+            "iatk    = p6            ; attack time\n" + 
+            "idec    = p7            ; decay time\n" + 
+            "ivibrate  = 5\n" + 
+            "ivibwidth = 0.05 * ifreq\n" + 
+            "iwave   = 1\n\n" + 
+            "imodfr  = ifreq * 2\n" + 
+            "icarfr  = ifreq * 3\n" + 
+            "\n\n" + 
+            "aenv    linseg  0, iatk, 1, idur-iatk-idec, 1, idec, 0   ; amp. env.\n" + 
+            "kvibwidth   linseg  0, idur, ivibwidth\n" + 
+            "avib    oscili  kvibwidth, ivibrate, iwave\n" + 
+            "amod    oscili  index*imodfr, imodfr, iwave\n" + 
+            "acar    oscili  iamp, icarfr+amod+avib, iwave\n" + 
+            "out     acar * aenv     ; output\n" + 
+            "    endin\n" + 
+            ";--------------------------------------------------------------------\n"
     }
 }
